@@ -4,6 +4,9 @@ import json
 import sys
 import argparse
 
+#TODO: Change default behavior with no args to describe rather than create
+#TODO: Add Create flag
+
 def parse_cli():
     try:
         parser = argparse.ArgumentParser()
