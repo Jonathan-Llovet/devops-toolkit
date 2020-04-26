@@ -1,30 +1,128 @@
 import boto3
+from botocore.exceptions import ClientError
 import json
+import sys
+import argparse
 
-# TODO: Add command line parser
-# TODO: Add default values
+def parse_cli():
+    try:
+        parser = argparse.ArgumentParser()
+        parser.add_argument("name", nargs="?", default="cf-stack")
+        parser.add_argument("template", nargs="?", default="./template.yml")
+        parser.add_argument("params", nargs="?", default="./parameters.json")
+        parser.add_argument(
+            "-n",
+            "--name",
+            default="cf-stack",
+            help="path to file containing parameters for cloudformation template",
+        )
+        parser.add_argument(
+            "-t",
+            "--template",
+            default="./template.yml",
+            help="path to file containing cloudformation template",
+        )
+        parser.add_argument(
+            "-p",
+            "--params",
+            default="./parameters.json",
+            help="path to file containing parameters for cloudformation template",
+        )
+        parser.add_argument(
+            "-del",
+            "--delete",
+            action="store_true",
+            help="optional flag indicating whether to delete the cloudformation stack",
+        )
+        parser.add_argument(
+            "-desc",
+            "--describe",
+            action="store_true",
+            help="optional flag to describe cloudformation stack(s)",
+        )
+        parser.add_argument(
+            "-da",
+            "--describe_all",
+            action="store_true",
+            help="optional flag to describe all cloudformation stacks",
+        )
+        parser.add_argument(
+            "-l",
+            "--list",
+            action="store_true",
+            help="optional flag to list all cloudformation stack names",
+        )
+        return parser.parse_args()
+    except argparse.ArgumentError as err:
+        print(str(err))
+        sys.exit(2)
 
-parameters_path = './infrastructure-parameters.json'
+def stack_exists(name, required_status='CREATE_COMPLETE'):
+    # See: https://stackoverflow.com/questions/23019166/boto-what-is-the-best-way-to-check-if-a-cloudformation-stack-is-exists
+    try:
+        data = client.describe_stacks(StackName=name)
+    except ClientError:
+        return False
+    return data['Stacks'][0]['StackStatus'] == required_status
 
-with open(parameters_path, 'r') as f:
-    parameters = json.load(f)
+def get_stack_name_list(data):
+    stack_ids = []
+    for stack in data['Stacks']:
+        stack_ids.append(stack['StackName'])
+    return stack_ids
 
-template_path = './cloudformation-template.yml'
+if __name__ == "__main__":
 
-with open(template_path, 'r') as f:
-    template = f.read()
+    client = boto3.client('cloudformation')
+    cli_args = parse_cli()
+    stack_name = cli_args.name
 
-stack_name = "mystack"
+    if cli_args.list:
+       cli_args.describe_all = True
 
-client = boto3.client('cloudformation')
+    if cli_args.describe_all:
+       cli_args.describe = True
+       describe_function = client.describe_stacks()
 
-client.describe_stacks()
+    if cli_args.describe:
+        if not cli_args.describe_all:
+            describe_function = client.describe_stacks(StackName=stack_name)
+        try:
+            data = describe_function
+            if cli_args.list:
+                stack_names = get_stack_name_list(data)
+                result = stack_names
+            else:
+                result = data
+            print(result)
+        except ClientError:
+            print(f"Stack with id {stack_name} does not exist")
+        sys.exit()
 
-# The following lines can be used to delete a cloudformation stack
-# client.delete_stack(StackName=stack_name)
+    if cli_args.delete:
+        result = client.delete_stack(
+            StackName=stack_name
+        )
+        print(result)
+        sys.exit()
 
-client.create_stack(
-    StackName=stack_name,
-    TemplateBody=template,
-    Parameters=parameters
-)
+    with open(cli_args.params, 'r') as f:
+        parameters = json.load(f)
+
+    with open(cli_args.template, 'r') as f:
+        template = f.read()
+
+    if stack_exists(stack_name):
+        result = client.update_stack(
+            StackName=stack_name,
+            TemplateBody=template,
+            Parameters=parameters
+        )
+        print(result)
+    else:
+        result = client.create_stack(
+            StackName=stack_name,
+            TemplateBody=template,
+            Parameters=parameters
+        )
+        print(result)
