@@ -1,9 +1,7 @@
 # DevOps Toolkit
 
 ## About
-This is a toolkit for automating various portions of the development and operations process. 
-
-Automation of standardized processes will help make your systems more consistent and reliable. This toolkit aims to help you do that.
+This is a toolkit for automating various portions of the software development and operations process.
 
 ## Resources for Learning about DevOps
 - [The Pheonix Project](https://www.amazon.com/Phoenix-Project-Helping-Business-Anniversary/dp/B00VATFAMI/)
@@ -17,5 +15,3 @@ Automation of standardized processes will help make your systems more consistent
 - [AWS](https://aws.amazon.com/)
 - [Azure](https://azure.microsoft.com/)
 - [Google Cloud Platform](https://cloud.google.com/)
-
- 
