@@ -7,9 +7,6 @@ import argparse
 def parse_cli():
     try:
         parser = argparse.ArgumentParser()
-        parser.add_argument("name", nargs="?", default="cf-stack")
-        parser.add_argument("template", nargs="?", default="./template.yml")
-        parser.add_argument("params", nargs="?", default="./parameters.json")
         parser.add_argument(
             "-n",
             "--name",
