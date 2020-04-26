@@ -31,19 +31,20 @@ def parse_cli():
             action="store_true",
             help="optional flag indicating whether to delete the cloudformation stack",
         )
-        parser.add_argument(
+        describe_group = parser.add_mutually_exclusive_group()
+        describe_group.add_argument(
             "-desc",
             "--describe",
             action="store_true",
-            help="optional flag to describe cloudformation stack(s)",
+            help="optional flag to describe cloudformation stacks",
         )
-        parser.add_argument(
+        describe_group.add_argument(
             "-da",
             "--describe_all",
             action="store_true",
             help="optional flag to describe all cloudformation stacks",
         )
-        parser.add_argument(
+        describe_group.add_argument(
             "-l",
             "--list",
             action="store_true",
