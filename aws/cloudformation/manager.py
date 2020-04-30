@@ -64,7 +64,9 @@ def stack_exists(name, required_status='CREATE_COMPLETE'):
         data = client.describe_stacks(StackName=name)
     except ClientError:
         return False
-    return data['Stacks'][0]['StackStatus'] == required_status
+    return data['Stacks'][0]['StackName'] == name
+    # TODO: Add flag for using status
+    # return data['Stacks'][0]['StackStatus'] == required_status
 
 def get_stack_name_list(data):
     stack_ids = []
