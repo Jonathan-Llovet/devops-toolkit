@@ -108,8 +108,11 @@ if __name__ == "__main__":
         print(result)
         sys.exit()
 
-    with open(cli_args.params, 'r') as f:
-        parameters = json.load(f)
+    if cli_args.params:
+        with open(cli_args.params, 'r') as f:
+            parameters = json.load(f)
+    else:
+        parameters = []
 
     with open(cli_args.template, 'r') as f:
         template = f.read()
