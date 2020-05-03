@@ -4,13 +4,39 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: "Configure SNS topics to subscribe to specific CloudFormation notifications and forward them to users"
 
+Parameters:
+  Owner:
+    Description: Email address of resource owner
+    Type: String
+    AllowedPattern: "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+    Default: replaceme@example.com
+
+  TopicName:
+    Description: Name of the SNS Topic
+    Type: String
+    Default: CloudFormation_Stack_Status
+
+  TopicDisplayName:
+    Description: Name of the SNS Topic
+    Type: String
+    Default: CloudFormation Stack Status
+
 Resources:
   # SNS topic to send emails to users (used inside Lambda function)
   SNSTopicEmail:
     Type: "AWS::SNS::Topic"
     Properties:
+      DisplayName: !Ref TopicDisplayName
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Type
+          Value: SNS Topic
+        - Key: Topic
+          Value: !Ref TopicName
+      TopicName: !Ref TopicName
       Subscription:
-        - Endpoint: "replaceme@example.com" # PUT YOUR EMAIL ADDRESS HERE
+        - Endpoint: !Ref Owner
           Protocol: "email"
 
   # IAM role and inline policy for Lambda function
