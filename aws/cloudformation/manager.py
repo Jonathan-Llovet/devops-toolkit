@@ -25,7 +25,6 @@ def parse_cli():
         parser.add_argument(
             "-p",
             "--params",
-            default="./parameters.json",
             help="path to file containing parameters for cloudformation template",
         )
         parser.add_argument(
