@@ -1,0 +1,14 @@
+[
+    {
+        "ParameterKey": "Owner",
+        "ParameterValue": "replaceme@example.com"
+    },
+    {
+        "ParameterKey": "TopicName",
+        "ParameterValue": "lambda_sns_test"
+    },
+    {
+        "ParameterKey": "TopicDisplayName",
+        "ParameterValue": "Lambda SNS Test"
+    }
+]
