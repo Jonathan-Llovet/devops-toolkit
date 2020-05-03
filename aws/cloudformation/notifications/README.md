@@ -1,7 +1,9 @@
 AWS CloudFormation Notifications
 ================================
 
-This module is based on a forked project. The original can be found here: [claudiobizzotto - https://github.com/claudiobizzotto/aws-cloudformation-notifications](https://github.com/claudiobizzotto/aws-cloudformation-notifications)
+This module is based on a forked project.
+
+The original can be found here: [claudiobizzotto - https://github.com/claudiobizzotto/aws-cloudformation-notifications](https://github.com/claudiobizzotto/aws-cloudformation-notifications)
 
 CloudFormation template to automate SNS notifications of specific CloudFormation events.
 
