@@ -32,6 +32,21 @@ Resources:
               - ec2:*
             Resource:
               - "*"
+  
+  JenkinsPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Description: Grants access to resources required for Jenkins service account in CICD pipelines.
+      ManagedPolicyName: Jenkins-Service
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:*
+              - ec2:*
+            Resource:
+              - "*"
 
   DevOpsGroup:
     Type: AWS::IAM::Group
