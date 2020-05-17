@@ -1,0 +1,18 @@
+[
+	{
+		"ParameterKey": "Owner",
+		"ParameterValue": "jonathan.llovet@gmail.com"
+	},
+	{
+		"ParameterKey": "Environment",
+		"ParameterValue": "Dev"
+	},
+	{
+		"ParameterKey": "WebServerKeyName",
+		"ParameterValue": "udagram-server"
+	},
+	{
+		"ParameterKey": "BastionHostKeyName",
+		"ParameterValue": "udagram-bastion-host"
+	}
+]
