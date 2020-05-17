@@ -11,6 +11,10 @@ Parameters:
   DevOpsServicePassword:
     Description: Password for DevOpsService user account
     Type: String
+  
+  JenkinsServicePassword:
+    Description: Password for JenkinsService user account
+    Type: String
 
 Resources:
   AllowFullAccessCICDEnvironmentPolicy:
@@ -35,6 +39,20 @@ Resources:
       GroupName: DevOps
       ManagedPolicyArns: 
         - !Ref AllowFullAccessCICDEnvironmentPolicy
+
+  JenkinsGroup:
+    Type: AWS::IAM::Group
+    Properties: 
+      GroupName: Jenkins
+      ManagedPolicyArns: 
+        - !Ref JenkinsPolicy
+
+  DevOpsGroupUserAdditions:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref JenkinsGroup
+      Users:
+        - !Ref JenkinsService
 
   DevOpsGroupUserAdditions:
     Type: AWS::IAM::UserToGroupAddition
@@ -65,3 +83,24 @@ Resources:
         - - !Ref AWS::Region
           - "-"
           - "Dev-Ops-Service"
+
+  JenkinsService:
+    Type: AWS::IAM::User
+    Properties:
+      Groups:
+        - !Ref JenkinsGroup
+      LoginProfile:
+        Password: !Ref JenkinsServicePassword
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Name
+          Value: Jenkins-Service
+        - Key: Description
+          Value: Service account to work on Jenkins pipelines
+      UserName:
+        !Join
+        - ""
+        - - !Ref AWS::Region
+          - "-"
+          - "Jenkins-Service"
