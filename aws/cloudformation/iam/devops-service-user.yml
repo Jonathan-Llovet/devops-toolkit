@@ -42,7 +42,7 @@ Resources:
     Properties:
       GroupName: !Ref DevOpsGroup
       Users:
-        - String
+        - !Ref DevOpsService
 
   DevOpsService:
     Type: AWS::IAM::User
