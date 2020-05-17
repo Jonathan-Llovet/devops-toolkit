@@ -31,3 +31,10 @@ Resources:
       GroupName: DevOps
       ManagedPolicyArns: 
         - !Ref AllowFullAccessCICDEnvironmentPolicy
+
+  # DevOpsGroupUserAdditions:
+  #   Type: AWS::IAM::UserToGroupAddition
+  #   Properties: 
+  #     GroupName: !Ref DevOpsGroup
+  #     Users: 
+  #       - String
