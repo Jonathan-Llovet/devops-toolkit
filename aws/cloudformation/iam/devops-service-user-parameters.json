@@ -6,5 +6,9 @@
     {
         "ParameterKey": "DevOpsServicePassword",
         "ParameterValue": "REPLACEME"
+    },
+    {
+        "ParameterKey": "JenkinsServicePassword",
+        "ParameterValue": "REPLACEME"
     }
 ]
