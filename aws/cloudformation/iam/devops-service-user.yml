@@ -8,6 +8,11 @@ Parameters:
     Default: jonathan.llovet@gmail.com
     # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
 
+  DevOpsServicePassword:
+    Description: Password for DevOpsService user account
+    Type: String
+    Default: Ix0XyygJRSGBFO!6eAU%
+
 Resources:
   AllowFullAccessCICDEnvironmentPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
@@ -32,9 +37,31 @@ Resources:
       ManagedPolicyArns: 
         - !Ref AllowFullAccessCICDEnvironmentPolicy
 
-  # DevOpsGroupUserAdditions:
-  #   Type: AWS::IAM::UserToGroupAddition
-  #   Properties: 
-  #     GroupName: !Ref DevOpsGroup
-  #     Users: 
-  #       - String
+  DevOpsGroupUserAdditions:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: !Ref DevOpsGroup
+      Users:
+        - String
+
+  DevOpsService:
+    Type: AWS::IAM::User
+    Properties:
+      Groups:
+        - String
+      LoginProfile:
+        Password: !Ref DevOpsServicePassword
+      ManagedPolicyArns:
+        - !Ref AllowFullAccessCICDEnvironmentPolicy
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Name
+          Value: DevOpsService
+        - Key: Description
+          Value: Service account to work on DevOps pipelines
+      UserName:
+        !Join
+        - ""
+        - - !Ref AWS::Region
+          - "DevOpsService"
