@@ -1,0 +1,63 @@
+Description: >
+  Jonathan Llovet / Jenkins Web Server in default VPC
+  Definition of server infrastructure for testing
+
+Parameters:
+  Owner:
+    Description: Email address of resource owner
+    Type: String
+    Default: jonathan.llovet@gmail.com
+    # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
+
+  Environment:
+    Description: Name of the environment - will be prefixed to resources
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - QA
+      - Prod
+
+  JenkinsServerKeyName:
+    Description: Name of SSH Key used for web servers
+    Type: String
+
+  JenkinsServerInstanceType:
+    Description: Jenkins server instance type
+    Default: t2.micro
+
+Resources:
+  JenkinsServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP Traffic to Jenkins Server
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+
+  JenkinsServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      ImageId: ami-085925f297f89fce1
+      InstanceType: !Ref JenkinsServerInstanceType
+      KeyName: !Ref JenkinsServerKeyName
+      SecurityGroupIds:
+        - !Ref JenkinsServerSecurityGroup
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Name
+          Value: !Sub "${Environment}-Jenkins-Server"
