@@ -1,6 +1,8 @@
-# Udagram - Udacity DevOps Engineer Nanodegree
+# Highly Available Web App
 
 This is based off of the second project in the Udacity DevOps Engineer Nanodegree Program. The original implementation can be found here: [Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code](https://github.com/Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code)
+
+## About
 
 Two AWS Cloudformation templates are used to deploy a web application that scales automatically to meet service demands and is highly available, with redundancy by design to protect against loss of service when there are issues with an AWS availability zone.
 
@@ -12,7 +14,7 @@ Instructions for creating, deleting, and testing the infrastructure can be found
 
 ## Architecture
 
-![Architecture Diagram](https://github.com/Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code/blob/master/diagram/Project-2-Udagram-Udacity-DevOps-Engineer-Nanodegree.svg)
+![Architecture Diagram](https://github.com/Jonathan-Llovet/devops-toolkit/blob/master/aws/cloudformation/highly-available-web-app/diagram/Project-2-Udagram-Udacity-DevOps-Engineer-Nanodegree.svg)
 
 ## Usage
 
