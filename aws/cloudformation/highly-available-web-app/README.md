@@ -2,6 +2,8 @@
 
 This is based off of the second project in the Udacity DevOps Engineer Nanodegree Program. The original implementation can be found here: [Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code](https://github.com/Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code)
 
+## About
+
 Two AWS Cloudformation templates are used to deploy a web application that scales automatically to meet service demands and is highly available, with redundancy by design to protect against loss of service when there are issues with an AWS availability zone.
 
 The architecture is designed with security in mind. The web servers are placed inside of private subnets that only expose web traffic through a load balancer that acts as a gateway. They also only allow remote administration through intermediary bastion hosts (a.k.a. jump hosts) that require specific ssh keys to grant access. Otherwise, the web servers are inaccessible to the outside world. 
