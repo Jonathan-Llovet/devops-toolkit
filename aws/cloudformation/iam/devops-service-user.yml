@@ -47,7 +47,7 @@ Resources:
     Type: AWS::IAM::User
     Properties:
       Groups:
-        - String
+        - !Ref DevOpsGroup
       LoginProfile:
         Password: !Ref DevOpsServicePassword
       ManagedPolicyArns:
@@ -63,4 +63,5 @@ Resources:
         !Join
         - ""
         - - !Ref AWS::Region
-          - "DevOpsService"
+          - "-"
+          - "Dev-Ops-Service"
