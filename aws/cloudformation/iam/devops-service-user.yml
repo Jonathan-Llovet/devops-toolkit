@@ -15,12 +15,12 @@ Resources:
       Description: Grants access to resources required for Dev Ops Engineers working on CICD pipelines.
       ManagedPolicyName: Dev-Ops-S3-EC2-CloudWatch
       PolicyDocument:
-      Version: 2012-10-17
-      Statement:
-        - Effect: Allow
-        Action:
-          - s3:*
-          - cloudwatch:*
-          - ec2:*
-        Resource:
-          - "*"
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+          Action:
+            - s3:*
+            - cloudwatch:*
+            - ec2:*
+          Resource:
+            - "*"
