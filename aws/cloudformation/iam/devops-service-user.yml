@@ -1,0 +1,26 @@
+Description: >
+  Jonathan Llovet / IAM Permissions and User for DevOps Service Accounts
+
+Parameters:
+  Owner:
+    Description: Email address of resource owner
+    Type: String
+    Default: jonathan.llovet@gmail.com
+    # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
+
+Resources:
+  AllowFullAccessCICDEnvironmentPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Description: Grants access to resources required for Dev Ops Engineers working on CICD pipelines.
+      ManagedPolicyName: Dev-Ops-S3-EC2-CloudWatch
+      PolicyDocument:
+      Version: 2012-10-17
+      Statement:
+        - Effect: Allow
+        Action:
+          - s3:*
+          - cloudwatch:*
+          - ec2:*
+        Resource:
+          - "*"
