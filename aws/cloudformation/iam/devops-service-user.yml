@@ -5,13 +5,12 @@ Parameters:
   Owner:
     Description: Email address of resource owner
     Type: String
-    Default: jonathan.llovet@gmail.com
+    Default: replaceme@example.com
     # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
 
   DevOpsServicePassword:
     Description: Password for DevOpsService user account
     Type: String
-    Default: Ix0XyygJRSGBFO!6eAU%
 
 Resources:
   AllowFullAccessCICDEnvironmentPolicy:

@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "Owner",
+        "ParameterValue": "replaceme@example.com"
+    },
+    {
+        "ParameterKey": "DevOpsServicePassword",
+        "ParameterValue": "REPLACEME"
+    }
+]
