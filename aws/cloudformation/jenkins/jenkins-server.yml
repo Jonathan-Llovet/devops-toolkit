@@ -6,7 +6,7 @@ Parameters:
   Owner:
     Description: Email address of resource owner
     Type: String
-    Default: jonathan.llovet@gmail.com
+    Default: replaceme@example.com
     # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
 
   Environment:
