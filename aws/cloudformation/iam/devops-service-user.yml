@@ -24,3 +24,10 @@ Resources:
             - ec2:*
           Resource:
             - "*"
+
+  DevOpsGroup:
+    Type: AWS::IAM::Group
+    Properties: 
+      GroupName: DevOps
+      ManagedPolicyArns: 
+        - !Ref AllowFullAccessCICDEnvironmentPolicy
