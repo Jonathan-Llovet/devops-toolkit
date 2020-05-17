@@ -22,12 +22,12 @@ Resources:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-          Action:
-            - s3:*
-            - cloudwatch:*
-            - ec2:*
-          Resource:
-            - "*"
+            Action:
+              - s3:*
+              - cloudwatch:*
+              - ec2:*
+            Resource:
+              - "*"
 
   DevOpsGroup:
     Type: AWS::IAM::Group
