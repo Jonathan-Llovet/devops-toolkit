@@ -22,7 +22,7 @@ Instructions for creating, deleting, and testing the infrastructure can be found
 
 - Have an AWS Account with sufficient permissions to create networking and server resources. [Need to create an account?](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
     - Note: Some of the features here will not be covered by the AWS free tier. Destroy or stop any unused resources to avoid usage costs.
-- If you want to ssh into the instances, create ssh keys and add the names in `udagram-servers-parameters.json`. For additional instructions, see the additional instructions below.
+- If you want to ssh into the instances, create ssh keys and add the names in `servers-parameters.json`. For additional instructions, see the additional instructions below.
 - [Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) to manage resources from the command line. 
 
 ### Creating the stacks
@@ -34,9 +34,9 @@ Full documentation on the aws cloudformation cli is available [here](https://doc
 
 ```SHELL
 aws cloudformation create-stack \
---stack-name udagram-network \
---template-body file://udagram-network.yml \
---parameters file://udagram-network-parameters.json \
+--stack-name network \
+--template-body file://network.yml \
+--parameters file://network-parameters.json \
 --region=us-east-1
 ```
 
@@ -46,9 +46,9 @@ aws cloudformation create-stack \
 
 ```SHELL
 aws cloudformation create-stack \
---stack-name udagram-servers \
---template-body file://udagram-servers.yml \
---parameters file://udagram-servers-parameters.json \
+--stack-name servers \
+--template-body file://servers.yml \
+--parameters file://servers-parameters.json \
 --region=us-east-1 \
 --capabilities CAPABILITY_NAMED_IAM
 ```
@@ -63,7 +63,7 @@ For testing, you can retrieve the DNS name for your load balancer several ways.
         - Go to Services -> EC2 -> Load Balancers
         - There, when you select the load balancer that has been created in the servers stack, the DNS name will be in the `Basic Configuration` section of the details displayed at the bottom of the screen.
     - Option 2
-        - Go to Services -> Cloudformation -> Stacks -> `udagram-servers` -> Outputs
+        - Go to Services -> Cloudformation -> Stacks -> `servers` -> Outputs
         - There, the DNS name for the load balancer can be found under `WebAppLoadBalancerDNSName`
 - Through the aws cloudformation cli
     - Run `aws cloudformation list-exports`
@@ -82,18 +82,18 @@ When you are finished with the stacks and want to delete them, you can use the f
 
 ```SHELL
 delete-stack \
---stack-name udagram-network
+--stack-name network
 ```
 
 ```SHELL
 delete-stack \
---stack-name udagram-servers
+--stack-name servers
 ```
 
 ### Connecting securely to web servers through bastion hosts for troubleshooting
 One way to connect securely the web servers is by using SSH Agent forwarding, which allows you to connect to the web server with the bastion host without copying your ssh key to the bastion host directly, which prevents your web servers from being compromised if your bastion host is hacked.
 
-To use ssh keys with the web servers, you will need to uncomment the `KeyName` property in `WebAppLaunchConfig` in `udagram-servers.yml`. Additionally, you will need to provide the name of an SSH key that you have access to. Following that, follow the guide below to connect to a web server using SSH Agent forwarding.
+To use ssh keys with the web servers, you will need to uncomment the `KeyName` property in `WebAppLaunchConfig` in `servers.yml`. Additionally, you will need to provide the name of an SSH key that you have access to. Following that, follow the guide below to connect to a web server using SSH Agent forwarding.
 
 - [Handling Bastion Hosts on AWS via SSH Agent Forwarding](https://medium.com/@crishantha/handing-bastion-hosts-on-aws-via-ssh-agent-forwarding-f1d2d4e8622a)
 - [ssh-add documentation](https://linux.die.net/man/1/ssh-add)
