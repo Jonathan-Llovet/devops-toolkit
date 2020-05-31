@@ -118,6 +118,8 @@ Resources:
           --volume jenkins-data:/var/jenkins_home \
           --volume jenkins-docker-certs:/certs/client:ro \
           --publish 8080:8080 --publish 50000:50000 jenkinsci/blueocean
+          # Use the following line to retrieve the initial jenkins admin password
+          # docker logs jenkins-blueocean 2>&1 | grep -A 2 "Please use the following password to proceed to installation:" | tail -1
       InstanceType: !Ref JenkinsServerInstanceType
       KeyName: !Ref JenkinsServerKeyName
       SecurityGroupIds:
