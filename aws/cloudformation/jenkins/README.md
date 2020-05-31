@@ -32,9 +32,12 @@ To get the initial administrator password:
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-- Alternatively, if you are connecting to the dockerized Jenkins server, run the following:
+- Alternatively, if you are connecting to the dockerized Jenkins server, you can run either of the following:
 ```SHELL
 docker exec -it jenkins-blueocean cat /var/jenkins_home/secrets/initialAdminPassword
+```
+```SHELL
+docker logs jenkins-blueocean 2>&1 | grep -A 2 "Please use the following password to proceed to installation:" | tail -1
 ```
 
 ### Deleting the Jenkins Stack
