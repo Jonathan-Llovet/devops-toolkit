@@ -1,0 +1,89 @@
+Description: >
+  Jonathan Llovet / Jenkins Web Server in default VPC
+  Definition of server infrastructure for testing
+
+Parameters:
+  Owner:
+    Description: Email address of resource owner
+    Type: String
+    Default: replaceme@example.com
+    # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
+
+  Environment:
+    Description: Name of the environment - will be prefixed to resources
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - QA
+      - Prod
+
+  JenkinsServerKeyName:
+    Description: Name of SSH Key used for web servers
+    Type: String
+
+  JenkinsServerInstanceType:
+    Description: Jenkins server instance type
+    Type: String
+    Default: t2.micro
+
+Resources:
+  JenkinsServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP Traffic to Jenkins Server
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  DockerJenkinsServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      # Linux 2 AMI
+      ImageId: ami-0323c3dd2da7fb37d
+      UserData:
+        # Installation instructions based on https://www.jenkins.io/doc/book/installing/
+        # and https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html
+        # Following installation, ssh into the instance and run the following to get the jenkins admin password
+        # docker exec -it jenkins-blueocean \
+        # cat /var/jenkins_home/secrets/initialAdminPassword
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          sudo yum update -y
+          sudo amazon-linux-extras install docker
+          sudo service docker start
+          sudo usermod -a -G docker ec2-user
+          sudo docker network create jenkins
+          sudo docker volume create jenkins-docker-certs
+          sudo docker volume create jenkins-data
+          docker container run --name jenkins-docker --rm --detach \
+          --privileged --network jenkins --network-alias docker \
+          --env DOCKER_TLS_CERTDIR=/certs \
+          --volume jenkins-docker-certs:/certs/client \
+          --volume jenkins-data:/var/jenkins_home \
+          --publish 2376:2376 docker:dind
+          docker container run --name jenkins-blueocean --rm --detach \
+          --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+          --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+          --volume jenkins-data:/var/jenkins_home \
+          --volume jenkins-docker-certs:/certs/client:ro \
+          --publish 8080:8080 --publish 50000:50000 jenkinsci/blueocean
+          # Use the following line to retrieve the initial jenkins admin password
+          # docker logs jenkins-blueocean 2>&1 | grep -A 2 "Please use the following password to proceed to installation:" | tail -1
+      InstanceType: !Ref JenkinsServerInstanceType
+      KeyName: !Ref JenkinsServerKeyName
+      SecurityGroupIds:
+        - !Ref JenkinsServerSecurityGroup
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Name
+          Value: !Sub "${Environment}-Docker-Jenkins-Server"
