@@ -56,6 +56,8 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
+          sudo apt-get update
+          sudo apt-get install -y nginx
       InstanceType: !Ref NginxServerInstanceType
       KeyName: !Ref NginxServerKeyName
       SecurityGroupIds:
