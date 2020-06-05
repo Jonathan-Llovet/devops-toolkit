@@ -1,0 +1,67 @@
+Description: >
+  Jonathan Llovet / Nginx Server in default VPC
+  Definition of server
+
+Parameters:
+  Owner:
+    Description: Email address of resource owner
+    Type: String
+    Default: replaceme@example.com
+    # AllowedPattern: '/[^\s@]+@[^\s@]+\.[^\s@]+/'
+
+  Environment:
+    Description: Name of the environment - will be prefixed to resources
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - QA
+      - Prod
+
+  NginxServerKeyName:
+    Description: Name of SSH Key used for web servers
+    Type: String
+
+  NginxServerInstanceType:
+    Description: Nginx server instance type
+    Type: String
+    Default: t2.micro
+
+Resources:
+  NginxServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: Nginx-Server-Security-Group
+      GroupDescription: Allow HTTP Traffic to Nginx Server
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+
+    NginxServer:
+      Type: AWS::EC2::Instance
+      Properties:
+        AvailabilityZone: !Select [0, !GetAZs '']
+        ImageId: ami-085925f297f89fce1
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+        InstanceType: !Ref NginxServerInstanceType
+        KeyName: !Ref NginxServerKeyName
+        SecurityGroupIds:
+          - !Ref NginxServerSecurityGroup
+        Tags:
+          - Key: Owner
+            Value: !Ref Owner
+          - Key: Name
+            Value: !Sub "${Environment}-Nginx-Server"

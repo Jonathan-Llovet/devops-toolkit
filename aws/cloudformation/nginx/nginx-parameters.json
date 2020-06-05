@@ -1,0 +1,18 @@
+[
+    {
+        "ParameterKey": "Owner",
+        "ParameterValue": "replaceme@example.com"
+    },
+    {
+        "ParameterKey": "Environment",
+        "ParameterValue": "Dev"
+    },
+    {
+        "ParameterKey": "NginxServerKeyName",
+        "ParameterValue": "REPLACEME"
+    },
+    {
+        "ParameterKey": "NginxServerInstanceType",
+        "ParameterValue": "t3.medium"
+    }
+]
