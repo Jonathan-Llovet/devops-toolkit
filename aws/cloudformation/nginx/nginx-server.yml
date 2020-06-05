@@ -48,20 +48,20 @@ Resources:
         ToPort: 22
         CidrIp: 0.0.0.0/0
 
-    NginxServer:
-      Type: AWS::EC2::Instance
-      Properties:
-        AvailabilityZone: !Select [0, !GetAZs '']
-        ImageId: ami-085925f297f89fce1
-        UserData:
-          Fn::Base64: !Sub |
-            #!/bin/bash
-        InstanceType: !Ref NginxServerInstanceType
-        KeyName: !Ref NginxServerKeyName
-        SecurityGroupIds:
-          - !Ref NginxServerSecurityGroup
-        Tags:
-          - Key: Owner
-            Value: !Ref Owner
-          - Key: Name
-            Value: !Sub "${Environment}-Nginx-Server"
+  NginxServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      ImageId: ami-085925f297f89fce1
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+      InstanceType: !Ref NginxServerInstanceType
+      KeyName: !Ref NginxServerKeyName
+      SecurityGroupIds:
+        - !Ref NginxServerSecurityGroup
+      Tags:
+        - Key: Owner
+          Value: !Ref Owner
+        - Key: Name
+          Value: !Sub "${Environment}-Nginx-Server"
