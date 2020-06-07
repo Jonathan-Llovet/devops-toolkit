@@ -55,9 +55,24 @@ Resources:
       ImageId: ami-085925f297f89fce1
       UserData:
         Fn::Base64: !Sub |
-          #!/bin/bash
+          # !/bin/bash
+          # Option 1: Install with Package Manager
+          # sudo apt-get update
+          # sudo apt-get install -y nginx
+          # Option 2: Build From Source - Allows custom modules
           sudo apt-get update
-          sudo apt-get install -y nginx
+          sudo wget http://nginx.org/download/nginx-1.19.0.tar.gz
+          sudo tar -zxvf nginx-1.19.0.tar.gz
+          cd nginx-1.19.0
+          sudo apt-get install -y build-essential
+          sudo apt-get install -y libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev
+          sudo ./configure --sbin-path=/usr/bin/nginx --conf-path=/etc/nginx/nginx.conf \
+          --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log \
+          --with-pcre --pid-path=/var/run/nginx.pid --with-http_ssl_module
+          sudo make
+          sudo make install
+          sudo nginx
+          
       InstanceType: !Ref NginxServerInstanceType
       KeyName: !Ref NginxServerKeyName
       SecurityGroupIds:
