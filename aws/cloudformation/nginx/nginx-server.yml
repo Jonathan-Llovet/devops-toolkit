@@ -54,6 +54,11 @@ Resources:
       AvailabilityZone: !Select [0, !GetAZs '']
       ImageId: ami-085925f297f89fce1
       UserData:
+        # References:
+        # https://www.udemy.com/course/nginx-fundamentals/learn/lecture/10607814#overview
+        # https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units
+        # https://stackoverflow.com/questions/82256/how-do-i-use-sudo-to-redirect-output-to-a-location-i-dont-have-permission-to-wr
+        # https://stackoverflow.com/questions/10969953/how-to-output-a-multiline-string-in-bash
         Fn::Base64: !Sub |
           # !/bin/bash
           # Option 1: Install with Package Manager
@@ -71,8 +76,29 @@ Resources:
           --with-pcre --pid-path=/var/run/nginx.pid --with-http_ssl_module
           sudo make
           sudo make install
-          sudo nginx
+          # Write service definition to file
+          sudo touch /lib/systemd/system/nginx.service
+          echo "[Unit]
+          Description=The NGINX HTTP and reverse proxy server
+          After=syslog.target network-online.target remote-fs.target nss-lookup.target
+          Wants=network-online.target
+
+          [Service]
+          Type=forking
+          PIDFile=/var/run/nginx.pid
+          ExecStartPre=/usr/bin/nginx -t
+          ExecStart=/usr/bin/nginx
+          ExecReload=/usr/bin/nginx -s reload
+          ExecStop=/bin/kill -s QUIT $MAINPID
+          PrivateTmp=true
           
+          [Install]
+          WantedBy=multi-user.target" | sudo tee /lib/systemd/system/nginx.service > /dev/null
+          # Start nginx service through systemd
+          sudo systemctl start nginx
+          # Set nginx to start up on system reboot
+          sudo systemctl enable nginx
+
       InstanceType: !Ref NginxServerInstanceType
       KeyName: !Ref NginxServerKeyName
       SecurityGroupIds:
