@@ -46,3 +46,6 @@ aws cloudformation delete-stack \
 - [NGINX Cookbook: Over 70 recipes for real-world configuration, deployment, and performance](https://www.amazon.com/gp/product/1786466171/)
 - [Nginx HTTP Server - Fourth Edition: Harness the power of Nginx to make the most of your infrastructure and serve pages faster than ever before](https://www.amazon.com/Nginx-HTTP-Server-Harness-infrastructure/dp/178862355X/)
 - [Nginx Essentials: Excel in Nginx quickly by learning to use its most essential features in real-life applications](https://www.amazon.com/Nginx-Essentials-Valery-Kholodkov/dp/1785289535/)
+
+### Linux Reference for Managing Nginx
+- [How To Use Systemctl to Manage Systemd Services and Units](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
