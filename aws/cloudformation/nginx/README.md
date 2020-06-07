@@ -37,12 +37,12 @@ aws cloudformation delete-stack \
 ```
 
 ## Resources
-Online courses on Nginx:
+### Online courses on Nginx
 - [NGINX Fundamentals: High Performance Servers from Scratch](https://www.udemy.com/course/nginx-fundamentals/)
 - [Full Node.js Deployment - NGINX, SSL With Lets Encrypt](https://www.youtube.com/watch?v=oykl1Ih9pMg)
 - [Nginx Official Tutorials](https://www.youtube.com/watch?v=X3Pr5VATOyA&list=PLGz_X9w9raXf748bzuGOV6XJv7q3wLxhZ)
 
-Books on Nginx:
+### Books on Nginx
 - [NGINX Cookbook: Over 70 recipes for real-world configuration, deployment, and performance](https://www.amazon.com/gp/product/1786466171/)
 - [Nginx HTTP Server - Fourth Edition: Harness the power of Nginx to make the most of your infrastructure and serve pages faster than ever before](https://www.amazon.com/Nginx-HTTP-Server-Harness-infrastructure/dp/178862355X/)
 - [Nginx Essentials: Excel in Nginx quickly by learning to use its most essential features in real-life applications](https://www.amazon.com/Nginx-Essentials-Valery-Kholodkov/dp/1785289535/)
