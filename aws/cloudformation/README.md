@@ -45,3 +45,12 @@ Delete a stack
 aws cloudformation delete-stack \
 --stack-name nginx
 ```
+
+## Resources
+### Online Courses and Talks on Cloudformation
+- [AWS CloudFormation Master Class](https://www.udemy.com/course/aws-cloudformation-master-class/)
+- [AWS re:Invent 2019: [REPEAT 1] Best practices for authoring AWS CloudFormation (DOP302-R1)](https://www.youtube.com/watch?v=bJHHQM7GGro)
+- [CloudFormation example using EC2, SecurityGroup and S3 | Amazon Web Services | Tech Primers](https://www.youtube.com/watch?v=Zz5xljI1gn8)
+
+### Books on Cloudformation and AWS
+- [Amazon Web Services in Action](https://www.amazon.com/Amazon-Services-Action-Andreas-Wittig/dp/1617295116/)
