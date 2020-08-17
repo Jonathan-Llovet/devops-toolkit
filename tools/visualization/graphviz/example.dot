@@ -1,0 +1,7 @@
+digraph {
+    rankdir=LR;
+    a -> b -> c;
+    b -> d;
+    a -> e -> c;
+    a -> v -> d;
+}
