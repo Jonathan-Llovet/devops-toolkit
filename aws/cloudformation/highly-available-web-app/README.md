@@ -1,6 +1,6 @@
 # Highly Available Web App
 
-This is based off of the second project in the Udacity DevOps Engineer Nanodegree Program. The original implementation can be found here: [Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code](https://github.com/Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code)
+This is based off of the second project in the Udacity DevOps Engineer Nanodegree Program. The original implementation can be found here: [jllovet/udacity-devops-nd-infrastructure-as-code](https://github.com/Jonathan-Llovet/udacity-devops-nd-infrastructure-as-code)
 
 ## About
 
